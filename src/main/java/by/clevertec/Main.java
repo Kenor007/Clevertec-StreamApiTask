@@ -89,7 +89,10 @@ public class Main {
 
     public static void task6() {
         List<Animal> animals = Util.getAnimals();
-//        animals.stream() Продолжить ...
+        System.out.println(
+                animals.stream()
+                        .allMatch(animal -> "Male".equals(animal.getGender()) || "Female".equals(animal.getGender()))
+        );
     }
 
     public static void task7() {
