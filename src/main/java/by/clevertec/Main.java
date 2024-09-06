@@ -61,7 +61,12 @@ public class Main {
 
     public static void task3() {
         List<Animal> animals = Util.getAnimals();
-//        animals.stream() Продолжить ...
+        animals.stream()
+                .filter(animal -> animal.getAge() > 30)
+                .map(Animal::getOrigin)
+                .filter(s -> s.startsWith("A"))
+                .distinct()
+                .forEach(System.out::println);
     }
 
     public static void task4() {
