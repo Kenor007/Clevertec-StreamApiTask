@@ -97,7 +97,10 @@ public class Main {
 
     public static void task7() {
         List<Animal> animals = Util.getAnimals();
-//        animals.stream() Продолжить ...
+        System.out.println(
+                animals.stream()
+                        .noneMatch(animal -> animal.getOrigin().contains("Oceania"))
+        );
     }
 
     public static void task8() {
