@@ -125,7 +125,11 @@ public class Main {
 
     public static void task10() {
         List<Animal> animals = Util.getAnimals();
-//        animals.stream() Продолжить ...
+        System.out.println(
+                animals.stream()
+                        .mapToInt(Animal::getAge)
+                        .sum()
+        );
     }
 
     public static void task11() {
