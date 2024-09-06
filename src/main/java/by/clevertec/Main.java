@@ -115,7 +115,12 @@ public class Main {
 
     public static void task9() {
         List<Animal> animals = Util.getAnimals();
-//        animals.stream() Продолжить ...
+        animals.stream()
+                .map(Animal::getBread)
+                .map(String::toCharArray)
+                .map(chars -> chars.length)
+                .min(Integer::compare)
+                .ifPresent(System.out::println);
     }
 
     public static void task10() {
