@@ -105,7 +105,12 @@ public class Main {
 
     public static void task8() {
         List<Animal> animals = Util.getAnimals();
-//        animals.stream() Продолжить ...
+        animals.stream()
+                .sorted(Comparator.comparing(Animal::getBread))
+                .limit(100)
+                .map(Animal::getAge)
+                .max(Integer::compare)
+                .ifPresent(System.out::println);
     }
 
     public static void task9() {
