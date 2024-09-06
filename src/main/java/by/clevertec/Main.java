@@ -80,7 +80,11 @@ public class Main {
 
     public static void task5() {
         List<Animal> animals = Util.getAnimals();
-//        animals.stream() Продолжить ...
+        System.out.println(
+                animals.stream()
+                        .filter(animal -> animal.getAge() >= 20 && animal.getAge() <= 30)
+                        .anyMatch(animal -> "Hungarian".equals(animal.getOrigin()))
+        );
     }
 
     public static void task6() {
