@@ -9,6 +9,8 @@ import by.clevertec.model.Person;
 import by.clevertec.model.Student;
 import by.clevertec.util.Util;
 
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.Comparator;
 import java.util.List;
 
@@ -143,7 +145,13 @@ public class Main {
 
     public static void task12() {
         List<Person> persons = Util.getPersons();
-//        persons.stream() Продолжить ...
+        persons.stream()
+                .filter(person -> "Male".equals(person.getGender()))
+                .filter(person -> Period.between(person.getDateOfBirth(), LocalDate.now()).getYears() >= 18)
+                .filter(person -> Period.between(person.getDateOfBirth(), LocalDate.now()).getYears() < 27)
+                .sorted(Comparator.comparing(Person::getRecruitmentGroup))
+                .limit(200)
+                .forEach(System.out::println);
     }
 
     public static void task13() {
