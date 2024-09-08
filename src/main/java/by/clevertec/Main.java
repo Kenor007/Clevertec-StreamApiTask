@@ -273,7 +273,11 @@ public class Main {
 
     public static void task17() {
         List<Student> students = Util.getStudents();
-//        students.stream() Продолжить ...
+        students.stream()
+                .map(Student::getGroup)
+                .distinct()
+                .sorted()
+                .forEach(System.out::println);
     }
 
     public static void task18() {
