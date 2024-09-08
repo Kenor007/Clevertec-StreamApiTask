@@ -2,7 +2,6 @@ package by.clevertec;
 
 import by.clevertec.model.Animal;
 import by.clevertec.model.Car;
-import by.clevertec.model.Examination;
 import by.clevertec.model.Flower;
 import by.clevertec.model.House;
 import by.clevertec.model.Person;
@@ -11,10 +10,7 @@ import by.clevertec.util.Util;
 
 import java.time.LocalDate;
 import java.time.Period;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -282,8 +278,16 @@ public class Main {
 
     public static void task18() {
         List<Student> students = Util.getStudents();
-        List<Examination> examinations = Util.getExaminations();
-//        students.stream() Продолжить ...
+        Map<String, Double> averageAges = students.stream()
+                .collect(Collectors.groupingBy(Student::getFaculty, Collectors.averagingInt(Student::getAge)));
+
+        List<Map.Entry<String, Double>> sortedFaculties = averageAges.entrySet().stream()
+                .sorted(Map.Entry.<String, Double>comparingByValue().reversed())
+                .toList();
+
+        for (Map.Entry<String, Double> entry : sortedFaculties) {
+            System.out.printf("Факультет: %s, Средний возраст: %.2f%n", entry.getKey(), entry.getValue());
+        }
     }
 
     public static void task19() {
