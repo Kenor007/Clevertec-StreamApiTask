@@ -11,9 +11,12 @@ import by.clevertec.util.Util;
 
 import java.time.LocalDate;
 import java.time.Period;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class Main {
@@ -182,7 +185,66 @@ public class Main {
 
     public static void task14() {
         List<Car> cars = Util.getCars();
-//        cars.stream() Продолжить ...
+        List<List<Car>> echelons = new ArrayList<>();
+
+        Predicate<Car> isGoingToTurkmenistan =
+                (car) -> "Jaguar".equals(car.getCarMake()) || "White".equals(car.getColor());
+        Predicate<Car> isGoingToUzbekistan =
+                (car) -> car.getMass() < 1500 || List.of("BMW", "Lexus", "Chrysler", "Toyota").contains(car.getCarMake());
+        Predicate<Car> isGoingToKazakhstan =
+                (car) -> ("Black".equals(car.getColor()) && car.getMass() >= 4000) || List.of("GMC", "Dodge").contains(car.getCarMake());
+        Predicate<Car> isGoingToKyrgyzstan =
+                (car) -> car.getReleaseYear() < 1982 || List.of("Civic", "Cherokee").contains(car.getCarModel());
+        Predicate<Car> isGoingToRussia =
+                (car) -> !List.of("Yellow", "Red", "Green", "Blue").contains(car.getColor()) || car.getPrice() > 40000;
+        Predicate<Car> isGoingToMongolia =
+                (car) -> car.getVin().contains("59");
+
+        cars.stream()
+                .collect(Collectors.partitioningBy(isGoingToTurkmenistan))
+                .forEach((key1, value1) -> {
+                    if (key1) echelons.add(value1);
+                    else value1.stream()
+                            .collect(Collectors.partitioningBy(isGoingToUzbekistan))
+                            .forEach((key2, value2) -> {
+                                if (key2) echelons.add(value2);
+                                else value2.stream()
+                                        .collect(Collectors.partitioningBy(isGoingToKazakhstan))
+                                        .forEach((key3, value3) -> {
+                                            if (key3) echelons.add(value3);
+                                            else value3.stream()
+                                                    .collect(Collectors.partitioningBy(isGoingToKyrgyzstan))
+                                                    .forEach((key4, value4) -> {
+                                                        if (key4) echelons.add(value4);
+                                                        else value4.stream()
+                                                                .collect(Collectors.partitioningBy(isGoingToRussia))
+                                                                .forEach((key5, value5) -> {
+                                                                    if (key5) echelons.add(value5);
+                                                                    else value5.stream()
+                                                                            .collect(Collectors.partitioningBy(isGoingToMongolia))
+                                                                            .forEach((key6, value6) -> {
+                                                                                if (key6) echelons.add(value6);
+                                                                            });
+                                                                });
+                                                    });
+                                        });
+                            });
+                });
+
+        Collections.reverse(echelons);
+        echelons.stream()
+                .map(carsInEchelons -> carsInEchelons.stream()
+                        .map(Car::getMass)
+                        .reduce(0, Integer::sum)
+                        .doubleValue() * 7.14)
+                .forEach(aDouble -> System.out.printf("%.2f\n", aDouble));
+
+        System.out.printf("%.2f\n", echelons.stream()
+                .map(carsInEchelons -> carsInEchelons.stream()
+                        .map(car -> (car.getPrice() - car.getMass() * 7.14))
+                        .reduce(0.0, Double::sum))
+                .reduce(0.0, Double::sum)
+        );
     }
 
     public static void task15() {
