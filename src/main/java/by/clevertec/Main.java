@@ -1,11 +1,6 @@
 package by.clevertec;
 
-import by.clevertec.model.Animal;
-import by.clevertec.model.Car;
-import by.clevertec.model.Flower;
-import by.clevertec.model.House;
-import by.clevertec.model.Person;
-import by.clevertec.model.Student;
+import by.clevertec.model.*;
 import by.clevertec.util.Util;
 
 import java.time.LocalDate;
@@ -292,7 +287,18 @@ public class Main {
 
     public static void task19() {
         List<Student> students = Util.getStudents();
-//        students.stream() Продолжить ...
+        List<Examination> examinations = Util.getExaminations();
+        // for group "C-3"
+        students.stream()
+                .filter(student -> student.getGroup().equals("C-3"))
+                .filter(student -> {
+                    Examination examination = examinations.stream()
+                            .filter(exam -> exam.getStudentId() == student.getId())
+                            .findFirst()
+                            .orElse(null);
+                    return examination != null && examination.getExam1() > 4 && examination.getExam2() > 4 && examination.getExam3() > 4;
+                })
+                .forEach(student -> System.out.println(student.getSurname()));
     }
 
     public static void task20() {
