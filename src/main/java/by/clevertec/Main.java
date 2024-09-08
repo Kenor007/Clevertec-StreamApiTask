@@ -11,7 +11,6 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class Main {
-
     public static void main(String[] args) {
         task1();
         task2();
@@ -328,6 +327,10 @@ public class Main {
 
     public static void task22() {
         List<Student> students = Util.getStudents();
-//        students.stream() Продолжить ...
+        students.stream()
+                .collect(Collectors.groupingBy(Student::getFaculty,
+                        Collectors.mapping(Student::getAge, Collectors.minBy(Comparator.naturalOrder()))))
+                .forEach((faculty, minAge) -> System.out.println("Faculty: " + faculty + ", Min age: " + minAge.get()));
+
     }
 }
