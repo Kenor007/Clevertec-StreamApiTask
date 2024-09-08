@@ -12,92 +12,77 @@ import java.util.stream.Stream;
 
 public class Main {
     public static void main(String[] args) {
-        task1();
-        task2();
-        task3();
-        task4();
-        task5();
-        task6();
-        task7();
+        task1(Util.getAnimals());
+        task2(Util.getAnimals());
+        task3(Util.getAnimals());
+        task4(Util.getAnimals());
+        task5(Util.getAnimals());
+        task6(Util.getAnimals());
+        task7(Util.getAnimals());
         task8();
         task9();
         task10();
         task11();
-        task12();
+        task12(Util.getPersons());
         task13();
         task14();
         task15();
-        task16();
-        task17();
+        task16(Util.getStudents());
+        task17(Util.getStudents());
         task18();
-        task19();
-        task20();
+        task19(Util.getStudents(), Util.getExaminations());
+        task20(Util.getStudents(), Util.getExaminations());
         task21();
         task22();
     }
 
-    public static void task1() {
-        List<Animal> animals = Util.getAnimals();
-        animals.stream()
+    public static List<Animal> task1(List<Animal> animals) {
+        return animals.stream()
                 .filter(animal -> animal.getAge() >= 10 && animal.getAge() < 20)
                 .sorted(Comparator.comparingInt(Animal::getAge))
                 .skip(7 * 2)
                 .limit(7)
-                .forEach(System.out::println);
+                .toList();
     }
 
-    public static void task2() {
-        List<Animal> animals = Util.getAnimals();
-        animals.stream()
+    public static List<String> task2(List<Animal> animals) {
+        return animals.stream()
                 .filter(animal -> "Japanese".equals(animal.getOrigin()))
                 .peek(animal -> animal.setBread(animal.getBread().toUpperCase()))
                 .filter(animal -> "Female".equals(animal.getGender()))
                 .map(Animal::getBread)
-                .forEach(System.out::println);
+                .toList();
     }
 
-    public static void task3() {
-        List<Animal> animals = Util.getAnimals();
-        animals.stream()
+    public static List<String> task3(List<Animal> animals) {
+        return animals.stream()
                 .filter(animal -> animal.getAge() > 30)
                 .map(Animal::getOrigin)
                 .filter(s -> s.startsWith("A"))
                 .distinct()
-                .forEach(System.out::println);
+                .toList();
     }
 
-    public static void task4() {
-        List<Animal> animals = Util.getAnimals();
-        System.out.println(
-                animals.stream()
-                        .filter(animal -> "Female".equals(animal.getGender()))
-                        .count()
-        );
+    public static long task4(List<Animal> animals) {
+        return animals.stream()
+                .filter(animal -> "Female".equals(animal.getGender()))
+                .count();
     }
 
-    public static void task5() {
-        List<Animal> animals = Util.getAnimals();
-        System.out.println(
-                animals.stream()
-                        .filter(animal -> animal.getAge() >= 20 && animal.getAge() <= 30)
-                        .anyMatch(animal -> "Hungarian".equals(animal.getOrigin()))
-        );
+    public static boolean task5(List<Animal> animals) {
+        return animals.stream()
+                .filter(animal -> animal.getAge() >= 20 && animal.getAge() <= 30)
+                .anyMatch(animal -> "Hungarian".equals(animal.getOrigin()));
     }
 
-    public static void task6() {
-        List<Animal> animals = Util.getAnimals();
-        System.out.println(
-                animals.stream()
-                        .allMatch(animal -> "Male".equals(animal.getGender()) || "Female".equals(animal.getGender()))
-        );
+    public static boolean task6(List<Animal> animals) {
+        return animals.stream()
+                .allMatch(animal -> "Male".equals(animal.getGender()) || "Female".equals(animal.getGender()));
     }
 
-    public static void task7() {
-        List<Animal> animals = Util.getAnimals();
-        System.out.println(
-                animals.stream()
-                        .noneMatch(animal -> animal.getOrigin().contains("Oceania"))
-        );
+    public static boolean task7(List<Animal> animals) {
+        return animals.stream()
+                .noneMatch(animal -> animal.getOrigin().contains("Oceania"));
     }
 
     public static void task8() {
@@ -138,15 +123,14 @@ public class Main {
                 .ifPresent(System.out::println);
     }
 
-    public static void task12() {
-        List<Person> persons = Util.getPersons();
-        persons.stream()
+    public static List<Person> task12(List<Person> persons) {
+        return persons.stream()
                 .filter(person -> "Male".equals(person.getGender()))
                 .filter(person -> Period.between(person.getDateOfBirth(), LocalDate.now()).getYears() >= 18)
                 .filter(person -> Period.between(person.getDateOfBirth(), LocalDate.now()).getYears() < 27)
                 .sorted(Comparator.comparing(Person::getRecruitmentGroup))
                 .limit(200)
-                .forEach(System.out::println);
+                .toList();
     }
 
     public static void task13() {
@@ -253,21 +237,19 @@ public class Main {
         System.out.printf("%.2f", totalPrice);
     }
 
-    public static void task16() {
-        List<Student> students = Util.getStudents();
-        students.stream()
+    public static List<Student> task16(List<Student> students) {
+        return students.stream()
                 .filter(student -> student.getAge() < 18)
                 .sorted(Comparator.comparing(Student::getSurname))
-                .forEach(student -> System.out.println(student.getSurname() + " - " + student.getAge() + " years old"));
+                .toList();
     }
 
-    public static void task17() {
-        List<Student> students = Util.getStudents();
-        students.stream()
+    public static List<String> task17(List<Student> students) {
+        return students.stream()
                 .map(Student::getGroup)
                 .distinct()
                 .sorted()
-                .forEach(System.out::println);
+                .toList();
     }
 
     public static void task18() {
@@ -284,11 +266,9 @@ public class Main {
         }
     }
 
-    public static void task19() {
-        List<Student> students = Util.getStudents();
-        List<Examination> examinations = Util.getExaminations();
+    public static List<String> task19(List<Student> students, List<Examination> examinations) {
         // for group "C-3"
-        students.stream()
+        return students.stream()
                 .filter(student -> student.getGroup().equals("C-3"))
                 .filter(student -> {
                     Examination examination = examinations.stream()
@@ -297,13 +277,11 @@ public class Main {
                             .orElse(null);
                     return examination != null && examination.getExam1() > 4 && examination.getExam2() > 4 && examination.getExam3() > 4;
                 })
-                .forEach(student -> System.out.println(student.getSurname()));
+                .map(Student::getSurname)
+                .toList();
     }
 
-    public static void task20() {
-        List<Student> students = Util.getStudents();
-        List<Examination> examinations = Util.getExaminations();
-
+    public static String task20(List<Student> students, List<Examination> examinations) {
         Map<String, Double> averageExam1Scores = examinations.stream()
                 .collect(Collectors.groupingBy(e -> students.stream()
                                 .filter(s -> s.getId() == e.getStudentId())
@@ -312,10 +290,10 @@ public class Main {
                                 .orElse("Unknown"),
                         Collectors.averagingInt(Examination::getExam1)));
 
-        System.out.println(averageExam1Scores.entrySet().stream()
+        return averageExam1Scores.entrySet().stream()
                 .max(Map.Entry.comparingByValue())
                 .map(Map.Entry::getKey)
-                .get());
+                .get();
     }
 
     public static void task21() {
