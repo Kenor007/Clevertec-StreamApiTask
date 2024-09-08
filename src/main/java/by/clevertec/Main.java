@@ -303,7 +303,20 @@ public class Main {
 
     public static void task20() {
         List<Student> students = Util.getStudents();
-//        students.stream() Продолжить ...
+        List<Examination> examinations = Util.getExaminations();
+
+        Map<String, Double> averageExam1Scores = examinations.stream()
+                .collect(Collectors.groupingBy(e -> students.stream()
+                                .filter(s -> s.getId() == e.getStudentId())
+                                .findFirst()
+                                .map(Student::getFaculty)
+                                .orElse("Unknown"),
+                        Collectors.averagingInt(Examination::getExam1)));
+
+        System.out.println(averageExam1Scores.entrySet().stream()
+                .max(Map.Entry.comparingByValue())
+                .map(Map.Entry::getKey)
+                .get());
     }
 
     public static void task21() {
